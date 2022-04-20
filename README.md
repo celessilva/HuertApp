@@ -1,7 +1,7 @@
 # HuertApp
 Trueque de vegetales de producción hogareña
 
-## Estado del Proyecto : <en proceso de inicio
+## Estado del Proyecto : en proceso de inicio
                             
 ## De que se trata
 
@@ -15,4 +15,4 @@ Para concientizar y volver a conectar con los ciclos naturales de flora y fauna 
 
 
 
-### Contribuciones < lopez Veronica,Naivis Lezama,Federico Lopez
+### Contribuciones : lopez Veronica,Naivis Lezama,Federico Lopez
