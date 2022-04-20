@@ -1,7 +1,7 @@
 # HuertApp
-Trueque de vegetales de producción hogareña
+🌱Trueque de vegetales de producción hogareña🌱
 
-## Estado del Proyecto : en proceso de inicio
+## Estado del Proyecto : en proceso de inicio 🚀
                             
 ## De que se trata
 
