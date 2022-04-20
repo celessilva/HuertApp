@@ -15,4 +15,4 @@ Para concientizar y volver a conectar con los ciclos naturales de flora y fauna 
 
 
 
-### Contribuciones : lopez Veronica,Naivis Lezama,Federico Lopez
+### Contribuciones : Veronica Lopez Perea,Naivis Lezama,Federico Juarez
