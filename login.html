@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2? family=Nunito+Sans:wght@200&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/main.scss" />
+    <link rel="stylesheet" href="css/Style.css" />
+    <title>HuertApp</title>
+  </head>
+  <body class="fondo">
+    <div class="d-grid sm-12">
+      <header>
+        <h2>HuertApp</h2>
+      </header>
+    </div>
+    <div class="container container-fluid text-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="80"
+        height="80"
+        fill="currentColor"
+        class="bi bi-person-circle"
+        viewBox="0 0 16 16"
+      >
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+        <path
+          fill-rule="evenodd"
+          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+        />
+      </svg>
+    </div>
+    <section class="">
+      <div id="log" class="jumbotron col-md-6 col-lg-8">
+        <h4>Ingreso</h4>
+
+        <p>Usuario</p>
+        <input
+          class="controls"
+          type="text"
+          name="Username"
+          id="username"
+          placeholder="Ingrese Usuario"
+        />
+        <p>Contraseña</p>
+        <input
+          class="controls"
+          type="password"
+          name="pass"
+          id="password"
+          placeholder="Ingrese su contraseña"
+        />
+        <input class="button" type="submit" value="Ingresar" />
+        <input class="button2" type="submit" value="Olvide mi contraseña" />
+      </div>
+    </section>
+    <script src="login.js"></script>
+  </body>
+</html>
+<!--arreglar el tamaño grande con bootstrap,agregarle validaciones con js-->
