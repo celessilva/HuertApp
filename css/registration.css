@@ -4,11 +4,12 @@
 }
  body{
     font-family: 'Nunito Sans', sans-serif;
+    margin: 60px;
 }
 
 h2{
     color: #fff;
-    font-size: 30px;
+    font-size: 40px;
     text-align: center;
     padding: 30px;
 }
@@ -21,29 +22,27 @@ img{
 }
 
 header {
-    background-color: darkgreen;
-    height: 90px;
+    background-color:green;
+    height: 120px;
     top: 16px;
     text-align: right;
     
+    
 }
 
-section {
-    
-    height: 800px;
-    width: 900px;
-    padding: 30px;
-    margin: auto;
-    margin-top: 5px;
-    border-radius: 10px;
-    border-style: double;
-    
-    
+.jumbotron {
+   border-radius: 20px;
+   margin-top: 30px;
+   background: rgb(218, 213, 213,0.25);*//
+
+
 }
+
 
 section h4{
+    color: #fff;
     font-size: 30px;
-    top: 16px;
+    top: 32px;
     text-align: center;
 }
 .controls {
@@ -56,6 +55,7 @@ section h4{
     margin-bottom: 36px;
 }
 p {
+    color: #fff;
     margin:10px;
     
     
@@ -66,23 +66,16 @@ p {
     height: 32px;
     color: white;
     background-color: darkgreen;
-    margin-top: 16px;
+    margin-top: 15px;
     border-radius: 10px;
 
-    
+.container{
+    margin-top: 32px;
+}
+.fondo{
+    background: url(../images/image.jpg) no-repeat;
+    height: auto;
 }
 
-.content {
-    
-    width:50px;
-    height: 50px;
-    margin-top: 32px;
-    padding: 50px;
-    margin-left: 600px;
-    
-}
-div{
-    top: 32px;
-    margin-inline: 300px;
-    
-}
+
+

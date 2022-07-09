@@ -25,11 +25,13 @@
     <link rel="stylesheet" href="css/registration.css" />
     <title>HuertApp</title>
   </head>
-  <body>
-    <header>
-      <h2>HuertApp</h2>
-    </header>
-    <div class="content">
+  <body class="fondo">
+    <div class="d-grid sm-12">
+      <header>
+        <h2>HuertApp</h2>
+      </header>
+    </div>
+    <div class="container container-fluid text-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
@@ -46,49 +48,51 @@
       </svg>
     </div>
     <section>
-      <h4>Register</h4>
+      <div id="log" class="jumbotron col-md-6 col-lg-offset-3">
+        <h4>Registro</h4>
 
-      <p>Name</p>
-      <input
-        class="controls"
-        type="text"
-        name="name"
-        id="username"
-        placeholder="Enter name"
-      />
-      <p>E-mail</p>
-      <input
-        class="controls"
-        type="email"
-        name="email"
-        id="email"
-        placeholder="Enter E-mail"
-      />
-      <p>Date of birth</p>
-      <input
-        class="controls"
-        type="date"
-        name="date"
-        id="date"
-        placeholder="Enter date"
-      />
-      <p>Username</p>
-      <input
-        class="controls"
-        type="text"
-        name="Username"
-        id="username"
-        placeholder="Enter user"
-      />
-      <p>Password</p>
-      <input
-        class="controls"
-        type="password"
-        name="pass"
-        id="pass"
-        placeholder="Enter password"
-      />
-      <input class="button" type="submit" value="Resgister" />
+        <p>Nombre</p>
+        <input
+          class="controls"
+          type="text"
+          name="name"
+          id="username"
+          placeholder="Enter name"
+        />
+        <p>E-mail</p>
+        <input
+          class="controls"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Enter E-mail"
+        />
+        <p>Fecha de nacimiento</p>
+        <input
+          class="controls"
+          type="date"
+          name="date"
+          id="date"
+          placeholder="Enter date"
+        />
+        <p>Apellido</p>
+        <input
+          class="controls"
+          type="text"
+          name="Username"
+          id="username"
+          placeholder="Enter user"
+        />
+        <p>Contraseña</p>
+        <input
+          class="controls"
+          type="password"
+          name="pass"
+          id="pass"
+          placeholder="Enter password"
+        />
+        <input class="button" type="submit" value="Registrarse" />
+      </div>
     </section>
   </body>
 </html>

@@ -84,3 +84,8 @@ div{
     height: 150px;
     top: 16px;
 }
+
+.fondo{
+    background: url(../images/image.jpg) no-repeat;
+    height: auto;
+}
