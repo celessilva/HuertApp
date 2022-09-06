@@ -1,0 +1,20 @@
+{% extends "/base/base.html" %} 
+{% from 'base/_error.html' import showError %}
+{% from 'base/_card_publicacion.html' import showPublicaciones %}
+
+
+{% block title %} {{title}} {% endblock %} 
+{%block baseContent %}
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {{showPublicaciones(publicaciones)}}
+        </div>
+    </div>
+    {% if error %}
+        {{showError(error,"descripcion del error")}}
+    {% endif %}
+
+    
+
+
+{% endblock baseContent %}

@@ -1,0 +1,32 @@
+{% extends 'base/_form_base.html' %} {% block customForm %}
+<form method="post" novalidate id="login-form">
+  <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{render_field(form.username.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.username,class="form-control mb-0")}}
+    </div>
+  </div>
+
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{render_field(form.password.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.password,class="form-control")}}
+    </div>
+  </div>
+  <div class="input-group mb-3">
+    <button
+      class="btn btn-outline-success my-2 my-sm-0"
+      type="submit"
+      value="Login"
+    >
+      Login
+    </button>
+  </div>
+</form>
+{% endblock customForm%}

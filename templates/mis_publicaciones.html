@@ -1,0 +1,30 @@
+
+{% extends "/base/base.html" %} 
+{% from 'base/_error.html' import showError %}
+
+{%block baseContent %}
+    {% if error %}
+    {{showError(error,msgError)}}
+    {% else %}
+    <table class="table" style="
+    margin-bottom: 100px;
+">
+        <tr>
+            <th>#</th>
+            <th>Titulo</th>
+            <th>Descripción</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+        {% for publicacion in publicaciones %}
+        <tr>
+            <td ><a href="/publicacion/{{publicacion.0}}/" class="btn btn-success btn-sm">Ver Publicación</a></td>
+            <td >{{publicacion.1}}</td>
+            <td >{{publicacion.2}}</td>
+            <td ><a href="/edit/{{publicacion.0}}/" class="btn btn-warning btn-sm">Editar</a></td>
+            <td ><a href="/delete/{{publicacion.0}}/" class="btn btn-danger btn-sm">Eliminar</a></td>
+        </tr>	
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock baseContent%}

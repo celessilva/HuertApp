@@ -1,0 +1,8 @@
+{% macro showError(tituloError,msnError) -%}
+<div class="alert alert-warning mt-2">
+  <h1><i class="bi bi-exclamation-triangle"></i>  {{tituloError}}</h1>
+  <p>{{msnError}}</p>
+  <hr />
+</div>
+
+{%- endmacro %}

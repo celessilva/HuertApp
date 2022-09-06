@@ -1,0 +1,27 @@
+{% extends 'base/_form_base.html' %}
+
+{% block customForm %}
+<form action="/create_user/" method="POST" >
+  <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+  <div class="input-group mb-3">
+    <label class="input-group-text">Nombre</label> 
+    <input  class="form-control" type="text" name="nombre" required>
+  </div>
+  <div class="input-group mb-3">
+    <label class="input-group-text">Apellido</label> 
+    <input  class="form-control" type="text" name="apellido" required>
+  </div>
+  <div class="input-group mb-3">
+    <label class="input-group-text">Username</label> 
+    <input  class="form-control" type="text" name="username" required>
+  </div>
+
+  <div class="input-group mb-3">
+    <label class="input-group-text">password</label> 
+    <input  class="form-control" type="text" name="password" required>
+  </div>
+  <div class="input-group mb-3">
+    <input class="form-control" type="submit" value="Guardar">
+  </div>
+</form>
+{% endblock customForm %}

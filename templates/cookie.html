@@ -1,0 +1,13 @@
+{% extends "/base/base.html" %} 
+{% from 'base/error.html' import showError %}
+{% from 'base/banner.html' import showBanner %}
+
+{% block title %} {{title}} {% endblock %} 
+{%block baseContent %}
+{{showBanner(title)}}
+{% if error %}
+{{showError(error,"descripcion del error")}}
+{% endif %}
+
+
+{% endblock baseContent %}

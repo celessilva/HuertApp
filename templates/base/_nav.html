@@ -1,0 +1,57 @@
+{% from 'base/_logout.html' import showUsuarioLogOut %} {% macro
+showNav(username) -%}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <i class="bi-"></i>
+      <a class="navbar-brand" href="{{ url_for('index') }}">
+        <img
+          src="{{ url_for('static', filename='img/logo4.png') }}"
+          alt="logo"
+          width="30"
+          height="30"
+        />Huertapp</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if username %}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li>
+            <a class="btn btn-outline-success mx-2" href="{{ url_for('crear_publicacion') }}"
+              >Crear publicacion</a
+            >
+          </li>
+          <li>
+            <a class="btn btn-outline-success mx-2" href="{{ url_for('mis_publicaciones') }}"
+              >Mis Publicaciones</a
+            >
+          </li>
+        </ul>
+        {{showUsuarioLogOut(username)}} {% else %}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+        <a ref="{{ url_for('create_user') }}"
+          class="btn btn-outline-success my-2 my-sm-0 mx-2"
+          >Crear Cuenta</a>
+        <a
+          href="{{ url_for('login') }}"
+          class="btn btn-outline-success my-2 my-sm-0 mx-2"
+          type="submit"
+          >Login</a
+        >
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>
+
+{%- endmacro %}
