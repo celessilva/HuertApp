@@ -39,9 +39,12 @@ showNav(username) -%}
         </ul>
         {{showUsuarioLogOut(username)}} {% else %}
         <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-        <a ref="{{ url_for('create_user') }}"
+        <a
+          href="{{ url_for('create_user') }}"
           class="btn btn-outline-success my-2 my-sm-0 mx-2"
-          >Crear Cuenta</a>
+          type="submit"
+          >Crear cuenta</a
+        >
         <a
           href="{{ url_for('login') }}"
           class="btn btn-outline-success my-2 my-sm-0 mx-2"

@@ -14,7 +14,7 @@ def crear_publicacion():
     descripcion = desc_form.descripcion.data
 
     if request.method == 'POST' and desc_form.validate() and 'username' in session:
-        username = session['username']
+        username = session['id_usuario']
         # usuario = consultasPublicacion.get_usuario_by_username(username)
         if (consultasPublicacion.crearPublicacion(titulo,descripcion,username)==True):
             flash(f"Publicacion:{desc_form.titulo.data}, creada con exito.")
@@ -31,7 +31,7 @@ def mis_publicaciones():
     error = ""
     msgError = ""
     banner = "Mis Publicaciones"
-    username = g.username 
+    username = session['id_usuario']
     # MODELO
     data = consultasPublicacion.get_all_publicaciones_by_username(username)
     if len(data) == 0:
@@ -56,7 +56,7 @@ def get_publicacion(id):
 @app.route('/edit/<int:id>/', methods=['GET', 'POST'])
 def edit_publicacion(id):
     title="EDITAR"
-    username = g.username
+    username = session['id_usuario']
     # Comprobar que existe la publicacion
     publicacion = consultasPublicacion.get_publicacion_by_id(id)
     form = PublicacionForm()

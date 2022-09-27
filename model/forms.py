@@ -20,25 +20,35 @@ def verificate_duplicated_username(self,field):
     if usuario:
         raise validators.ValidationError("el usuario ya existe")
 
-# def verificate_username_exist(self,field):
-#     username= self.username.data
-#     cur = mysql.connection.cursor()
-#     cur.execute("SELECT username FROM usuarios where username = %s",[username,])
-#     usuario = cur.fetchall()[0]
-#     if usuario:
-#         raise validators.ValidationError("el usuario ya existe")
+def verificate_username_exist_create(self):
+     username= self.username.data
+     cur = mysql.connection.cursor()
+     cur.execute("SELECT username FROM usuarios where username = %s",[username,])
+     usuario = cur.fetchall()[0]
+     if usuario:
+         raise validators.ValidationError("el usuario ya existe")
 
-# def verificate_username_exist(self,field):
-#     username= self.username.data
-#     try:
-#         cur = mysql.connection.cursor()
-#         cur.execute("SELECT username FROM usuarios where username = %s",[username,])
-#         # DEVUELVE UNA TUPLA, con un unico valor.
-#         usuario = cur.fetchall()[0]
-#     except IndexError:
-#         raise validators.ValidationError("El usuario no existe")
-#     finally:
-#         cur.close()
+def verificate_username_exist(email,password):
+     try:
+         cur = mysql.connection.cursor()
+         cur.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s', (email, password,))
+         # DEVUELVE UNA TUPLA, con un unico valor.
+         account = cur.fetchone()
+         return account
+     except IndexError:
+         validators.ValidationError("El usuario no existe")
+     finally:
+         cur.close()
+         
+def create_user_database(nombre,email,password):
+    try:
+         cur = mysql.connection.cursor()
+         cur.execute('INSERT INTO usuarios(nombre, email, password) VALUES (%s,%s,%s)', (nombre,email,password))
+         mysql.connection.commit()
+    except IndexError:
+         validators.ValidationError("El usuario no existe")
+    finally:
+         cur.close()
 # -------------------
 
 class UsuarioForm(FlaskForm):

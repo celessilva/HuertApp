@@ -4,14 +4,11 @@ from flask_mysqldb import MySQL, MySQLdb
 from werkzeug.utils import redirect
 from flask.helpers import url_for
 
-def crearPublicacion(titulo:str,descripcion:str,usuario:str) -> bool:
+def crearPublicacion(titulo:str,descripcion:str,id_usuario:int) -> bool:
     response = False
-    cur = None
+    cur = mysql.connection.cursor()
     try:
-        cur = mysql.connection.cursor()
-        cur.execute("""INSERT INTO publicaciones (titulo, descripcion,usuario) 
-        VALUES (%(titulo)s,%(descripcion)s,%(usuario)s)""",
-        {'titulo':titulo,'descripcion':descripcion,'usuario':usuario})
+        cur.execute("INSERT INTO publicaciones (titulo, descripcion,id_usuario) VALUES (%s,%s,%s)", (titulo,descripcion,id_usuario))
         mysql.connection.commit()
         response = True 
     except (MySQLdb.Error, MySQLdb.Warning) as e:
@@ -65,7 +62,7 @@ def get_all_publicaciones_by_username(username)-> tuple:
     data= [] 
     try:
         cur = mysql.connection.cursor()
-        cur.execute(f"SELECT * from publicaciones where usuario = '{username}';")
+        cur.execute(f"SELECT * from publicaciones where id_usuario = '{username}';")
         data = cur.fetchall()
         print(data)
     except (MySQLdb.Error, MySQLdb.Warning) as e:
@@ -117,7 +114,7 @@ def publicacion_belongs_usuario(id_publicacion,username)->bool:
     try:
         cur = mysql.connection.cursor()
         #Devuelve el usuario de la publicacion
-        cur.execute(f"SELECT usuario from publicaciones where id = '{id_publicacion}';")
+        cur.execute(f"SELECT id_usuario from publicaciones where id = '{id_publicacion}';")
         data = cur.fetchall()[0]
         # RECORDAR DEVUELVE UNA TUPLA!!
         app.logger.warn(data)

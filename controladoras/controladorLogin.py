@@ -2,7 +2,7 @@ from app import app
 from flask import g
 from flask import session, flash,render_template,request,redirect,url_for
 from model.consultasPublicacion import get_all_publicaciones
-from model.forms import LoginForm
+from model.forms import LoginForm, verificate_username_exist
 
 @app.route('/')
 def index():
@@ -32,11 +32,13 @@ def login():
         username = desc_form.username.data
         password = desc_form.password.data
         # COMPROBAR QUE EL USUARIO EXISTA EN LA DB
-        if username :
+        account = verificate_username_exist(username,password)
+        if account != None:
             session['username'] = username
+            session['id_usuario'] = account[0]
             return redirect(url_for("index"))
         else:
-            flash("Los datos no pertenecen a un usuario registrado..")
+            flash("No encuentro esos datos..")
     return render_template('login.html',title=title, form=desc_form)
 
 @app.route('/logout')
@@ -44,3 +46,4 @@ def logout():
     if 'username' in session:
         session.pop('username')
     return redirect(url_for("index"))
+
