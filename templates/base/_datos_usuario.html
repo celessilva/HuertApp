@@ -1,0 +1,17 @@
+<!-- Macro para mostrar los datos del usuario que creo la publicacion -->
+{% macro showUserData(user) -%}
+<p>
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseDatosUsuario" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Ver datos del autor
+  </a>
+</p>
+<div class="collapse" id="collapseDatosUsuario">
+  <div class="card card-body">
+    <p class="card-text">
+      Email: {{user.2}} 
+    </p>
+  
+  </div>
+</div>
+</div>
+{%- endmacro %}

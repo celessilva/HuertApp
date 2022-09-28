@@ -4,6 +4,7 @@ from flask import session, flash,render_template,request,redirect,url_for
 from model.consultasPublicacion import get_all_publicaciones
 from model.forms import LoginForm, verificate_username_exist
 
+
 @app.route('/')
 def index():
     title = "Home"
@@ -20,10 +21,12 @@ def index():
         username = session['username']
         flash("Bienvenido: "+username)
     else:
-        app.logger.warn("no LOGEADO") #AL LOG
         banner = "Bienvenido: te invitamos a logearte o registrarte en nuestra app "
     return render_template('index.html', username = g.username, title=title, banner=banner,publicaciones = publicaciones)
 
+# ------------------------------------------------------------------------------------------
+
+#Ruta para el login (verifica los datos que llegan del formulario con la base de datos asi como tambien el check correspondiente al hash del password)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     title = "Login"
@@ -31,19 +34,24 @@ def login():
     if request.method == 'POST' and desc_form.validate() :
         username = desc_form.username.data
         password = desc_form.password.data
-        # COMPROBAR QUE EL USUARIO EXISTA EN LA DB
+        
+        # Comprueba los datos para validarlos con los que se encuentran en la base de datos
         account = verificate_username_exist(username,password)
+        #Si el objeto devuelto contiene datos procede a crear la session y redirigir al index
         if account != None:
-            session['username'] = username
+            session['username'] = account[1]
             session['id_usuario'] = account[0]
             return redirect(url_for("index"))
-        else:
-            flash("No encuentro esos datos..")
     return render_template('login.html',title=title, form=desc_form)
 
+# ------------------------------------------------------------------------------------------
+
+#Ruta para el logout (elimina las "keys" guardadas en session)
 @app.route('/logout')
 def logout():
     if 'username' in session:
         session.pop('username')
+    if 'id_usuario' in session:
+        session.pop('id_usuario')     
     return redirect(url_for("index"))
 

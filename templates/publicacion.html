@@ -1,17 +1,10 @@
-{% extends "/base/base.html" %} 
-{% from 'base/_error.html' import showError %}
-{% from 'base/_publicacion.html' import showPublicacion %}
-
-
-{% block title %} {{title}} {% endblock %} 
-{%block baseContent %}
-    {% if publicacion %}
-    <div class="container">
-        {{showPublicacion(publicacion)}}
-    </div>
-    {% endif %}
-
-    {% if error %}
-        {{showError(error,"descripcion del error")}}
-    {% endif %}
-{% endblock baseContent %}
+{% extends "/base/base.html" %} {% from 'base/_error.html' import showError %}
+{% from 'base/_publicacion.html' import showPublicacion %} {% from
+'base/_datos_usuario.html' import showUserData %} {% block title %} {{title}} {%
+endblock %} {%block baseContent %} {% if publicacion %}
+<div class="container pt-5">
+  {{showPublicacion(publicacion)}} {% endif %} {% if user %} {{
+  showUserData(user) }} {% endif %}
+</div>
+{% if error %} {{showError(error,"descripcion del error")}} {% endif %} {%
+endblock baseContent %}

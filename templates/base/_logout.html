@@ -1,6 +1,7 @@
+<!-- Macro que muestra el logout en caso de no encontrar un usuario en session -->
 {% macro showUsuarioLogOut(username) -%}
 <form class="d-flex" action="/logout" method="GET">
-    <input class="form-control mr-sm-2 mx-2" type="text" value="Bienvenido: {{username}} " aria-label="Password" disabled="true" draggable="false" >
+    <input class="form-control mr-sm-2 mx-2" type="text" value="Bienvenido: {{session['username']}} " aria-label="Password" disabled="true" draggable="false" >
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="logout">Logout</button>
 </form>
 {%- endmacro %}

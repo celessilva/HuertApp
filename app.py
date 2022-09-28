@@ -37,4 +37,4 @@ def before_request():
 
 if __name__ == '__main__':
     csrf.init_app(app)
-    app.run(port = 3002)
+    app.run(port = 3000)
