@@ -21,7 +21,7 @@ def index():
         username = session['username']
         flash("Bienvenido: "+username)
     else:
-        banner = "Bienvenido: te invitamos a logearte o registrarte en nuestra app "
+        banner = "Bienvenido: te invitamos a loguearte o registrarte en nuestra app "
     return render_template('index.html', username = g.username, title=title, banner=banner,publicaciones = publicaciones)
 
 # ------------------------------------------------------------------------------------------
