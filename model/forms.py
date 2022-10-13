@@ -33,7 +33,7 @@ def verificate_username_exist_create(username):
 
      cur = mysql.connection.cursor()
      cur.execute("SELECT email FROM Usuario where email = %s",[username])
-     usuario = cur.fetchall()[0]
+     usuario = cur.fetchall()
      return True if usuario else False
 
 # ------------------------------------------------------------------------------------------
