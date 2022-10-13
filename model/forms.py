@@ -1,6 +1,7 @@
+from tokenize import String
 from typing import Tuple
 from wtforms import StringField,validators
-from wtforms.fields.simple import SubmitField, TextAreaField
+from wtforms.fields.simple import SubmitField, TextAreaField, EmailField
 from flask_wtf import FlaskForm
 from flask import flash
 from app import mysql
@@ -28,13 +29,12 @@ def verificate_duplicated_username(self,field):
 
 # ------------------------------------------------------------------------------------------
 
-def verificate_username_exist_create(self):
-     username= self.username.data
+def verificate_username_exist_create(username):
+
      cur = mysql.connection.cursor()
-     cur.execute("SELECT username FROM usuarios where username = %s",[username,])
+     cur.execute("SELECT email FROM Usuario where email = %s",[username])
      usuario = cur.fetchall()[0]
-     if usuario:
-         raise validators.ValidationError("el usuario ya existe")
+     return True if usuario else False
 
 # ------------------------------------------------------------------------------------------
 
@@ -81,20 +81,12 @@ class UsuarioForm(FlaskForm):
         validators.length(min=5,max=25,message="Ingrese Titulo valido"),
         validators.DataRequired(message="Username es requerido")
         ]) 
-    apellido = StringField('Apellido',[
-        validators.length(min=5,max=25,message="Ingrese Titulo valido"),
-        validators.DataRequired(message="Username es requerido")
-        ]) 
-    direccion = StringField('Direccion',[
-        validators.length(min=5,max=25,message="Ingrese Titulo valido"),
-        validators.DataRequired(message="Username es requerido")
-        ]) 
-    username = StringField('Username',[
+    username = EmailField('Email',[
         validators.length(min=5,max=25,message="Ingrese Titulo valido"),
         validators.DataRequired(message="Username es requerido"),
         ]) 
-    password = StringField('Password',[
-        validators.length(max=255,message="El tamaño maximo es 255"),
+    password = StringField('Contraseña',[
+        validators.length(min=5,max=255,message="El tamaño maximo es 255"),
         validators.DataRequired(message="Password Requerido")
     ])
 
@@ -109,9 +101,9 @@ class PublicacionForm(FlaskForm):
     ])
 
 class LoginForm(FlaskForm):
-    username = StringField('Username',[
+    username = StringField('Email',[
         validators.length(min=5,max=25,message="Ingrese usuario valido. Entre 5 y 25 caracteres."),
-        validators.DataRequired(message="Username es requerido"),
+        validators.DataRequired(message="Email es requerido"),
         validate_excluded_chars
         ]) 
     password = StringField('Password',[

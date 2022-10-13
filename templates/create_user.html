@@ -4,16 +4,16 @@
 <form action="/create_user/" method="POST" >
   <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
   <div class="input-group mb-3">
-    <label class="input-group-text">Nombre</label> 
-    <input  class="form-control" type="text" name="nombre" required>
+    {{render_field(form.nombre.label,class="input-group-text")}}
+    {{ render_field(form.nombre,class="form-control mb-0")}}
   </div>
   <div class="input-group mb-3">
-    <label class="input-group-text">Email</label> 
-    <input  class="form-control" type="email" name="username" required>
+    {{render_field(form.username.label,class="input-group-text")}}
+    {{ render_field(form.username,class="form-control mb-0")}}
   </div>
   <div class="input-group mb-3">
-    <label class="input-group-text">Contraseña</label> 
-    <input  class="form-control" type="text" name="password" required>
+    {{render_field(form.password.label,class="input-group-text")}}
+    {{ render_field(form.password,class="form-control mb-0")}}
   </div>
   <div class="input-group mb-3">
     <input class="form-control" type="submit" value="Guardar">

@@ -1,5 +1,7 @@
+from concurrent.futures import thread
 from genericpath import exists
 from traceback import print_tb
+import time
 from flask import g
 from app import app
 from model.forms import PublicacionForm
@@ -21,6 +23,9 @@ def crear_publicacion():
         # usuario = consultasPublicacion.get_usuario_by_username(username)
         if (consultasPublicacion.crearPublicacion(titulo, descripcion, username) == True):
             flash(f"Publicacion:{desc_form.titulo.data}, creada con exito.")
+            
+            
+            time.sleep(3)
         else:
             flash(f"Error al crear publicacion. Intentelo de nuevo en unos minutos.")
     return render_template('create_publicacion.html', title=title, form=desc_form, username=session['username'])
