@@ -88,7 +88,8 @@ class UsuarioForm(FlaskForm):
     password = StringField('Contraseña',[
         validators.length(min=5,max=255,message="El tamaño maximo es 255"),
         validators.DataRequired(message="Password Requerido")
-    ])
+    ],
+    widget=PasswordInput(hide_value=False))
 
 class PublicacionForm(FlaskForm):
     titulo = StringField('Titulo',[

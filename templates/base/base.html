@@ -13,7 +13,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<title>{% block title %}{% endblock %}</title>
 	</head>
+
 	<body>
+		<div class="container-fluid ps-0 pe-0">
 		<!-- BARRA NAVEGACION -->
 		{{showNav(username)}}
 		<div>
@@ -29,20 +31,22 @@
 		{% if banner %}
 				{{showBanner(banner)}}
 		{% endif %}
-        <section class="container pt-4 mb-1">
+        <section class="container pt-4 margin-publicaciones">
 			{% block baseContent%}
 			<!-- CONTENIDO BASE -->
 			{% endblock baseContent%}
         </section>
-		
-		
-		<footer class="text-center text-lg-start bg-light text-muted">
-			<div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-				© 2022 Copyright:
-				<a class="text-reset fw-bold" href="#">Huertapp</a>
-			</div>
-		</footer>	
-				
+
+			<footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+				<div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+					© 2022 Copyright:
+					<a class="text-reset fw-bold" href="#">Huertapp</a>
+				</div>
+			</footer>	
+
+		</div>
+
+	
 		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 	</body>
 </html>

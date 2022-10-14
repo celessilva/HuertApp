@@ -8,7 +8,6 @@ from model.forms import LoginForm, verificate_username_exist
 @app.route('/')
 def index():
     title = "Home"
-    username = ""
     banner = ""
     publicaciones = get_all_publicaciones()
 
@@ -17,10 +16,7 @@ def index():
         app.logger.warn(error)
         flash(error)
 
-    if 'username' in session:
-        username = session['username']
-        flash("Bienvenido: "+username)
-    else:
+    if 'username' not in session:
         banner = "Bienvenido: te invitamos a loguearte o registrarte en nuestra app "
     return render_template('index.html', username = g.username, title=title, banner=banner,publicaciones = publicaciones)
 
@@ -41,6 +37,9 @@ def login():
         if account != None:
             session['username'] = account[1]
             session['id_usuario'] = account[0]
+            if 'username' in session:
+                username = session['username']
+                flash("Bienvenido: "+username)
             return redirect(url_for("index"))
     return render_template('login.html',title=title, form=desc_form)
 

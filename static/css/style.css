@@ -1,7 +1,11 @@
 footer {
-    margin-bottom: 0;
-    position:relative;
+    position:absolute;
     height: 75px;
     bottom: 0;
     width: 100%;
+}
+
+
+.margin-publicaciones{
+    margin-bottom: 5rem;
 }
