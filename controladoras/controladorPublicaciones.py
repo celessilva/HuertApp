@@ -1,6 +1,7 @@
 from ast import For
 from concurrent.futures import thread
 from fileinput import filename
+from queue import Empty
 from flask import g
 from app import app
 from model.forms import PublicacionForm, PublicacionEditForm
@@ -115,7 +116,11 @@ def update_publicacion(id):
         #Si la data que viene del formulario para el atributo foto NO ES "None" entonces borra la foto y sube la nueva, caso CONTRARIO no hace nada mas que actualizar
         #el nombre con el anterior, esto es para permitir al editar poder guardar la misma foto sin necesidad de seleccionarla nuevamente...
         if form.foto.data is not None:
-            os.unlink("static/uploads/" + publicacion[5])
+            if publicacion[5]:
+                try:
+                    os.unlink(os.path.join("static/uploads/" + publicacion[5]))
+                except:
+                    flash("No se encontro la imagen anterior...continuar...")
             filename = secure_filename(foto.filename)
             #Ruta para guardar...(se puede crear una funcion a parte en caso de ser necesario)
             path = os.path.join(app.root_path,app.config['UPLOAD_FOLDER'],filename)
@@ -123,8 +128,6 @@ def update_publicacion(id):
         else:
             filename = publicacion[5]
 
-        
-        
         # Comprobar que la publicacion se actualizo satisfactoriamente.
         if consultasPublicacion.update_publicacion(titulo, descripcion,filename, id):
             flash("Publicación actualizada exitosamente")
@@ -155,7 +158,7 @@ def delete_publicacion(id):
 
     try:
         #Elimina la foto solo si la encuentra para eso el "try" se puede implementar en donde sea necesario capturar el error...
-        os.unlink("static/uploads/" + filename)
+        os.unlink(os.path.join("static/uploads/" + filename))
     except:
         flash("No se encontro la ruta o imagen.")
 
