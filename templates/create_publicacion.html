@@ -1,7 +1,11 @@
-{% extends 'base/_form_base.html' %} 
-{% from 'base/_form.html' import render_field %} 
-{% block customForm %}
-<form method="post" action="/crear_publicacion" novalidate>
+{% extends 'base/_form_base.html' %} {% from 'base/_form.html' import
+render_field %} {% block customForm %}
+<form
+  method="post"
+  action="/crear_publicacion"
+  novalidate
+  enctype="multipart/form-data"
+>
   <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
 
   <div class="input-group input-group-lg flex-nowrap mb-3">
@@ -21,7 +25,16 @@
       {{ render_field(form.descripcion,class="form-control")}}
     </div>
   </div>
-
+  <!-- INPUT PARA CARGAR LA FOTO -->
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{ render_field(form.foto.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.foto,class="form-control")}}
+    </div>
+  </div>
+  <!-- --------------------------- -->
   <div class="input-group mb-3">
     <input
       class="form-control"
@@ -32,8 +45,8 @@
   </div>
   <div class="input-group mb-3">
     <a class="btn btn-outline-success" href="{{ url_for('index') }}"
-    >Volver a las publicaciones</a
-  >
+      >Volver a las publicaciones</a
+    >
   </div>
 </form>
 {% endblock customForm %}

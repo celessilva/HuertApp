@@ -13,6 +13,7 @@ class Config(object):
     MYSQL_PASSWORD= environ.get('MYSQL_PASSWORD')
     MYSQL_DB= environ.get('MYSQL_DB')
     PERMANENT_SESSION_LIFETIME =  timedelta(minutes=50)
+    WTF_CSRF_ENABLED = False
 
 class DevelopmentConfig(Config):
     DEBUG = True 
@@ -22,5 +23,5 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    WTF_CSRF_ENABLED = False
+    
     MYSQL_DATABASE_URI = 'mysql://'+Config.MYSQL_USER +':'+Config.MYSQL_PASSWORD+'@'+Config.MYSQL_HOST+'3306'+'/'+Config.MYSQL_DB

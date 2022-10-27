@@ -2,11 +2,16 @@ from tokenize import String
 from typing import Tuple
 from wtforms import StringField,validators
 from wtforms.fields.simple import SubmitField, TextAreaField, EmailField
+from flask_wtf.file import FileField, FileAllowed, FileRequired, ValidationError
 from flask_wtf import FlaskForm
 from flask import flash
 from app import mysql
 from werkzeug.security import check_password_hash
 from wtforms.widgets import PasswordInput
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
+from flask_uploads import UploadSet, IMAGES
+
 
 # CUSTOM VALIDATIONS
 # ES EL LUGAR PARA CHEQUEAR SI LOS DATOS SON CORRESPONDIDOS EN LA DB? ??
@@ -91,15 +96,51 @@ class UsuarioForm(FlaskForm):
     ],
     widget=PasswordInput(hide_value=False))
 
+def FileSizeLimit(max_size_in_mb):
+    max_bytes = max_size_in_mb*1024*1024
+
+    def file_length_check(form, field):
+        if field.data is not None:
+            if len(field.data.read()) > max_bytes:
+                raise ValidationError(
+                    f'Tamaño de archivo excedido. Tamaño maximo: {max_size_in_mb} MB')
+            field.data.seek(0)
+    return file_length_check
+
 class PublicacionForm(FlaskForm):
     titulo = StringField('Titulo',[
         validators.length(min=10,max=35,message="Ingrese Titulo valido. Entre 10 y 25 caracteres."),
-        validators.DataRequired(message="Titulo es requerido")
+        validators.DataRequired(message="Titulo es requerido.")
         ]) 
     descripcion = TextAreaField('Descripcion',[
         validators.length(min=10, max=255,message="Ingrese un comentario valido. Entre 10 y 255 caracteres."),
         validators.DataRequired(message="La descripcion es requerida.")
     ])
+    #VALIDADOR PARA LA FOTO
+    foto = FileField('Seleccionar Foto',validators=[
+        FileRequired(message="Necesitas subir una foto."),
+        FileAllowed(IMAGES, "Solo imagenes porfavor!"),
+        FileSizeLimit(0.5)
+    ])
+
+#Se creo una clase nueva para el editar puesto que si se agregan varios parametros innecesarios la validacion no deja continuar si faltan algunos de los campos
+#en el formulario
+class PublicacionEditForm(FlaskForm):
+    titulo = StringField('Titulo',[
+        validators.length(min=10,max=35,message="Ingrese Titulo valido. Entre 10 y 25 caracteres."),
+        validators.DataRequired(message="Titulo es requerido.")
+        ]) 
+    descripcion = TextAreaField('Descripcion',[
+        validators.length(min=10, max=255,message="Ingrese un comentario valido. Entre 10 y 255 caracteres."),
+        validators.DataRequired(message="La descripcion es requerida.")
+    ])
+    #VALIDADOR PARA LA FOTO DEL EDIT (SIN REQUIRED)
+    foto = FileField('Seleccionar Foto',validators=[
+        FileAllowed(IMAGES, "Solo imagenes porfavor!"),
+        FileSizeLimit(0.5)
+    ])    
+   
+
 
 class LoginForm(FlaskForm):
     username = StringField('Email',[

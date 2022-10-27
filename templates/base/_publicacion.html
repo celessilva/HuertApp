@@ -1,14 +1,17 @@
 {% macro showPublicacion(publicacion) -%}
 <div class="card border-dark mb-3 text-center">
+  
   <h5 class="card-header">{{publicacion.1}}</h5>
+
   <div class="card-body">
+    <img src="/static/uploads/{{publicacion.5}}" class="img-thumbnail rounded mx-auto d-block" alt="imagen_publicacion" style="max-width: 25rem;">
     <h5 class="card-title">Descripcion</h5>
     <p class="card-text">
       {{publicacion.2}} 
     </p>
   
   <div class="card-footer">
-    <h5>Autor: {{publicacion.6}}</h5>
+    <h5>Autor: {{publicacion.7}}</h5>
   </div>
 </div>
 {%- endmacro %}

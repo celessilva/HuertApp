@@ -3,12 +3,15 @@
         {% for publicacion in publicaciones %}
         <div class="col-sm-4">
             <div class="card text-center" style="width: 18rem;">
+                
                 <div class="card border-dark mb-3" style="max-width: 18rem;">
+                    
                     <h5 class="card-header">{{publicacion.1}}</h5>
+                    <img src="/static/uploads/{{publicacion.5}}" class="card-img-top" alt="imagen_publicacion">
                     <div class="card-body">
                         
-                        <p class="card-text">{{publicacion.2}}
-                        </p>
+                        <p class="card-text">{{publicacion.2}}</p>
+                        
                         <a href="/publicacion/{{publicacion.0}}/" class="btn btn-warning btn-sm">Ver publicacion</a>
                     </div>
                 </div>

@@ -6,8 +6,10 @@ from flask_mysqldb import MySQL
 from flask import session
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'static/uploads/'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+UPLOAD_FOLDER = 'static/uploads'
+
+#Comento esto porque hay una libreria que trae un diccionario con todos los tipos de imagen permitidos y estan siendo validados a traves de Flask-WTF
+#ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -18,6 +20,7 @@ def page_not_found(e):
 app.config.from_object('config.DevelopmentConfig')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.register_error_handler(404, page_not_found)
+
 mysql = MySQL(app)
 csrf = CSRFProtect(app)
 

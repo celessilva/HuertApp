@@ -4,11 +4,11 @@ from flask_mysqldb import MySQL, MySQLdb
 from werkzeug.utils import redirect
 from flask.helpers import url_for
 
-def crearPublicacion(titulo:str,descripcion:str,id_usuario:int) -> bool:
+def crearPublicacion(titulo:str,descripcion:str,id_usuario:int,foto:str) -> bool:
     response = False
     cur = mysql.connection.cursor()
     try:
-        cur.execute("INSERT INTO Publicacion (titulo, descripcion,id_usuario) VALUES (%s,%s,%s)", (titulo,descripcion,id_usuario))
+        cur.execute("INSERT INTO Publicacion (titulo, descripcion,id_usuario,foto) VALUES (%s,%s,%s,%s)", (titulo,descripcion,id_usuario,foto))
         mysql.connection.commit()
         response = True 
     except (MySQLdb.Error, MySQLdb.Warning) as e:
@@ -30,7 +30,6 @@ def get_usuario_by_username(username:str) -> tuple:
     finally:
         cur.close()
     return resultado
-
 
 def get_publicacion_by_id(id:int) -> tuple:
     resultado = None
@@ -63,7 +62,6 @@ def get_all_publicaciones_by_username(username)-> tuple:
         cur = mysql.connection.cursor()
         cur.execute(f"SELECT * from Publicacion where id_usuario = '{username}';")
         data = cur.fetchall()
-        print(data)
     except (MySQLdb.Error, MySQLdb.Warning) as e:
         app.logger.error(e)
     finally:
@@ -89,7 +87,7 @@ def delete_publicacion_by_id(id:int)->bool:
             cur.close()
     return resultado
 
-def update_publicacion(titulo,descripcion,id)->str:
+def update_publicacion(titulo,descripcion,foto,id)->str:
     resultado = False
     try:
         cur = mysql.connection.cursor()
@@ -97,8 +95,9 @@ def update_publicacion(titulo,descripcion,id)->str:
         cur.execute("""
         UPDATE Publicacion
         SET titulo=%s,
-            descripcion=%s 
-        WHERE id_publicacion = %s""",(titulo,descripcion,id))
+            descripcion=%s, 
+            foto=%s
+        WHERE id_publicacion = %s""",(titulo,descripcion,foto,id))
         mysql.connection.commit()
         app.logger.warn("UPDATEADO")
         resultado = True 

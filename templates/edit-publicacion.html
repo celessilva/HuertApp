@@ -1,5 +1,5 @@
 {% extends 'base/_form_base.html' %} {% block customForm %}
-<form method="POST" action="/update/{{publicacion.0}}/" novalidate>
+<form method="POST" action="/update/{{publicacion.0}}/" novalidate enctype="multipart/form-data">
   <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
 
   <div class="input-group input-group-lg flex-nowrap mb-3">
@@ -19,6 +19,24 @@
       {{ render_field(form.descripcion,class="form-control")}}
     </div>
   </div>
+
+  <!-- INPUT PARA CARGAR LA FOTO -->
+  <div class="card border-dark mb-3 foto-edit" style="max-width: 18rem">
+    <img
+      src="/static/uploads/{{publicacion.5}}"
+      class="card-img-top"
+      alt="imagen_publicacion"
+    />
+  </div>
+  <div class="input-group input-group-lg flex-nowrap mb-3">
+    <span class="flex-nowrap">
+      {{ render_field(form.foto.label,class="input-group-text")}}
+    </span>
+    <div class="container">
+      {{ render_field(form.foto,class="form-control")}}
+    </div>
+  </div>
+  <!-- --------------------------- -->
 
   <div class="input-group mb-3">
     <input class="form-control" type="submit" name="guardar" value="Guardar" />

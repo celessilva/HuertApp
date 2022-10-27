@@ -1,36 +1,47 @@
+from ast import For
 from concurrent.futures import thread
-from genericpath import exists
-from traceback import print_tb
-import time
+from fileinput import filename
 from flask import g
 from app import app
-from model.forms import PublicacionForm
+from model.forms import PublicacionForm, PublicacionEditForm
 from flask import session, flash, render_template, request, redirect, url_for
 import model.consultasPublicacion as consultasPublicacion
 from controladoras import controladorUsuario
+from werkzeug.utils import secure_filename
+import os
+from werkzeug.datastructures import CombinedMultiDict
 
-# CREA PUBLICACIONES
+# CREA PUBLICACIONES -------------------------------------------------------
 # VERONICA
 @app.route('/crear_publicacion', methods=['GET', 'POST'])
 def crear_publicacion():
     title = "Crear Publicacion"
-    desc_form = PublicacionForm(request.form)
+    #Diccionario que combina los archivos que recibe el request y los string que vienen del POST
+    desc_form = PublicacionForm(CombinedMultiDict((request.files, request.form)))
     titulo = desc_form.titulo.data
     descripcion = desc_form.descripcion.data
-
+    #Recibe Foto
+    foto = desc_form.foto.data
+    
     if request.method == 'POST' and desc_form.validate() and 'username' in session:
         username = session['id_usuario']
+        filename = secure_filename(foto.filename)
+
+        #Ruta donde se guardan las fotos de las publicaciones
+        path = os.path.join(app.root_path,app.config['UPLOAD_FOLDER'],filename)
+        #Guarda la foto en la ruta generada arriba...
+        foto.save(path)
+        
         # usuario = consultasPublicacion.get_usuario_by_username(username)
-        if (consultasPublicacion.crearPublicacion(titulo, descripcion, username) == True):
+        if (consultasPublicacion.crearPublicacion(titulo, descripcion, username,filename) == True):
             flash(f"Publicacion:{desc_form.titulo.data}, creada con exito.")
-            
-            
-            time.sleep(3)
+
         else:
             flash(f"Error al crear publicacion. Intentelo de nuevo en unos minutos.")
     return render_template('create_publicacion.html', title=title, form=desc_form, username=session['username'])
+    
 
-# LISTA DE TODAS LAS PUBLICACIONES
+# LISTA DE TODAS LAS PUBLICACIONES -------------------------------------------------------
 # naivis
 @app.route('/mis_publicaciones', methods=['GET'])
 def mis_publicaciones():
@@ -57,11 +68,11 @@ def mis_publicaciones():
     return render_template('mis_publicaciones.html', banner=banner, error=error, msgError=msgError, publicaciones=data, username=username)
 
 # nico
-# Ruta para mostrar la publicacion seleccionada por "id"
+# Ruta para mostrar la publicacion seleccionada por "id" -------------------------------------------------------
 @app.route('/publicacion/<int:id>/', methods=['GET'])
 def get_publicacion(id):
     publicacion = consultasPublicacion.get_publicacion_by_id(id)
-    datos_usuario = controladorUsuario.get_usuario_by_username(publicacion[6])
+    datos_usuario = controladorUsuario.get_usuario_by_username(publicacion[7])
     if publicacion == False:
         flash("No existe la publicacion")
         return redirect(url_for("mis_publicaciones"))
@@ -69,7 +80,7 @@ def get_publicacion(id):
 # nic
 
 
-# La pagina donde se edita, completa el form con los datos de la publicacion
+# La pagina donde se edita, completa el form con los datos de la publicacion -------------------------------------------------------
 @app.route('/edit/<int:id>/', methods=['GET', 'POST'])
 def edit_publicacion(id):
     title = "EDITAR"
@@ -83,28 +94,46 @@ def edit_publicacion(id):
         """Paso la tupla que devuelve la busqueda de publicacion a cada uno de los campos del form"""
         form.titulo.data = publicacion[1]
         form.descripcion.data = publicacion[2]
+        form.foto.data = publicacion[5]
     else:
         # NO es necesario darle toda la informacion al "usuario".
         return redirect(url_for("index"))
     return render_template('edit-publicacion.html', form=form, title=title, publicacion=publicacion, username=username)
 
-# Realiza el update a la publicacion seleccionada
+# Realiza el update a la publicacion seleccionada -------------------------------------------------------
 @app.route('/update/<int:id>/', methods=['POST'])
 def update_publicacion(id):
     publicacion = consultasPublicacion.get_publicacion_by_id(id)
-    form = PublicacionForm()
+    form = PublicacionEditForm(CombinedMultiDict((request.files, request.form)))
     if publicacion and request.method == 'POST' and form.validate():
         titulo = form.titulo.data
         descripcion = form.descripcion.data
+
+        #Foto que viene del formulario para editar
+        foto = form.foto.data
+
+        #Si la data que viene del formulario para el atributo foto NO ES "None" entonces borra la foto y sube la nueva, caso CONTRARIO no hace nada mas que actualizar
+        #el nombre con el anterior, esto es para permitir al editar poder guardar la misma foto sin necesidad de seleccionarla nuevamente...
+        if form.foto.data is not None:
+            os.unlink("static/uploads/" + publicacion[5])
+            filename = secure_filename(foto.filename)
+            #Ruta para guardar...(se puede crear una funcion a parte en caso de ser necesario)
+            path = os.path.join(app.root_path,app.config['UPLOAD_FOLDER'],filename)
+            foto.save(path)
+        else:
+            filename = publicacion[5]
+
+        
+        
         # Comprobar que la publicacion se actualizo satisfactoriamente.
-        if consultasPublicacion.update_publicacion(titulo, descripcion, id):
+        if consultasPublicacion.update_publicacion(titulo, descripcion,filename, id):
             flash("Publicación actualizada exitosamente")
             return redirect(url_for("mis_publicaciones"))
         else:
             flash("No se pudo actualizar correctamente. Intentelo de nuevo mas tarde.")
     return render_template('edit-publicacion.html', form=form, publicacion=publicacion, username=g.username)
 
-#Verifica si existe la publicacion
+#Verifica si existe la publicacion -------------------------------------------------------
 def existe_publicacion(publicacion) -> bool:
     resultado = None
     if not publicacion:
@@ -117,14 +146,26 @@ def existe_publicacion(publicacion) -> bool:
         resultado = True
     return resultado
 
-#Borra la publicacion seleccionada
+#Borra la publicacion seleccionada -------------------------------------------------------
 @app.route('/delete/<int:id>/', methods=['GET', 'POST'])
 def delete_publicacion(id):
+    publicacion_foto = consultasPublicacion.get_publicacion_by_id(id)
+    filename = publicacion_foto[5]
     publicacion = consultasPublicacion.delete_publicacion_by_id(id)
+
+    try:
+        #Elimina la foto solo si la encuentra para eso el "try" se puede implementar en donde sea necesario capturar el error...
+        os.unlink("static/uploads/" + filename)
+    except:
+        flash("No se encontro la ruta o imagen.")
+
     app.logger.warn("borrando la publicacion")
+
     if publicacion == False:
         flash("No se pudo borrar la publicacion")
         return redirect(url_for("index"))
     else:
         flash("Publicación borrada exitosamente")
         return redirect(url_for("mis_publicaciones"))
+    return filename
+    
