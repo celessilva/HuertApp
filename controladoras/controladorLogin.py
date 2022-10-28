@@ -10,6 +10,9 @@ def index():
     title = "Home"
     banner = ""
     publicaciones = get_all_publicaciones()
+    #Devolver al reverso las publicaciones, de esta forma la mas nueva siempre esta primero...(proximo paso ¿fechas?)
+    publicaciones = publicaciones[::-1]
+   
 
     if len(publicaciones) == 0:
         error = "No existen publicaciones"

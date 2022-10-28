@@ -1,6 +1,6 @@
 from ast import For
 from concurrent.futures import thread
-from fileinput import filename
+
 from queue import Empty
 from flask import g
 from app import app
@@ -118,7 +118,7 @@ def update_publicacion(id):
         if form.foto.data is not None:
             if publicacion[5]:
                 try:
-                    os.unlink(os.path.join("static/uploads/" + publicacion[5]))
+                    os.unlink(os.path.join(app.root_path,app.config['UPLOAD_FOLDER'],publicacion[5]))
                 except:
                     flash("No se encontro la imagen anterior...continuar...")
             filename = secure_filename(foto.filename)
@@ -158,7 +158,7 @@ def delete_publicacion(id):
 
     try:
         #Elimina la foto solo si la encuentra para eso el "try" se puede implementar en donde sea necesario capturar el error...
-        os.unlink(os.path.join("static/uploads/" + filename))
+        os.unlink(os.path.join(app.root_path,app.config['UPLOAD_FOLDER'],filename))
     except:
         flash("No se encontro la ruta o imagen.")
 
