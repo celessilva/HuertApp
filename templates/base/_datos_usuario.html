@@ -7,10 +7,15 @@
 </p>
 <div class="collapse" id="collapseDatosUsuario">
   <div class="card card-body">
+    {% if session['username'] %}
     <p class="card-text">
-      Email: {{user.2}} 
+      Email: {{user.2}}
     </p>
-  
+    {% else%}
+    <p class="card-text">
+      Para acceder al mail del creador de esta publicación necesitas loguearte, ¡gracias!
+    </p>
+    {% endif %}
   </div>
 </div>
 </div>
