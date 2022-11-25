@@ -16,6 +16,10 @@
     {{ render_field(form.password,class="form-control mb-0")}}
   </div>
   <div class="input-group mb-3">
+    {{render_field(form.celular.label,class="input-group-text")}}
+    {{ render_field(form.celular,class="form-control mb-0")}}
+  </div>
+  <div class="input-group mb-3">
     <input class="form-control" type="submit" value="Guardar">
   </div>
 </form>

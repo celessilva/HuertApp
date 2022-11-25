@@ -44,7 +44,19 @@ def get_publicacion_by_id(id:int) -> tuple:
         cur.close()
     return resultado
 
-def get_all_publicaciones()-> tuple:
+def get_all_publicaciones(numero_pagina)-> tuple:
+    data= [] 
+    cur = mysql.connection.cursor()
+    try:
+        cur.execute(f"SELECT * from Publicacion LIMIT 3 OFFSET {numero_pagina};")
+        data = cur.fetchall()
+    except (MySQLdb.Error, MySQLdb.Warning) as e:
+        app.logger.error(e)
+    finally:
+        cur.close()
+    return data
+
+def get_all_publicaciones_paginacion()-> tuple:
     data= [] 
     cur = mysql.connection.cursor()
     try:
@@ -106,6 +118,8 @@ def update_publicacion(titulo,descripcion,foto,id)->str:
     finally:
         cur.close()
     return resultado
+
+
 
 def publicacion_belongs_usuario(id_publicacion,username)->bool:
     resultado = False

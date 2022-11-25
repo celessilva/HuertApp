@@ -6,6 +6,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired, ValidationError
 from flask_wtf import FlaskForm
 from flask import flash
 from app import mysql
+from flask_mysqldb import MySQL, MySQLdb
 from werkzeug.security import check_password_hash
 from wtforms.widgets import PasswordInput
 from werkzeug.utils import secure_filename
@@ -69,15 +70,33 @@ def verificate_username_exist(email:str,password:str)->Tuple:
 # ----------------------------------------------------------------------------
          
 #Crea el usuario en la base de datos
-def create_user_database(nombre:str,email:str,password:str)-> None:
+def create_user_database(nombre:str,email:str,password:str,celular:str)-> None:
     try:
          cur = mysql.connection.cursor()
-         cur.execute('INSERT INTO Usuario(nombre, email, password) VALUES (%s,%s,%s)', (nombre,email,password))
+         cur.execute('INSERT INTO Usuario(nombre, email, password, celular) VALUES (%s,%s,%s,%s)', (nombre,email,password,celular))
          mysql.connection.commit()
     except IndexError:
          validators.ValidationError("El usuario no existe")
     finally:
          cur.close()
+
+
+def update_usuario(nombre, celular,id):
+    try:
+        cur = mysql.connection.cursor()
+        #ESTA ES LA FORMA DE AGREGAR DATOS.
+        cur.execute("""
+        UPDATE Usuario
+        SET nombre=%s,
+            celular=%s 
+        WHERE id_usuario = %s""",(nombre,celular,id))
+        mysql.connection.commit()
+        flash('Perfil Actualizado')
+    except (MySQLdb.Error, MySQLdb.Warning) as e:
+        print(e)
+    finally:
+        cur.close()
+
 
 # -------------------- VALIDACIONES DEL FORMULARIO --------------------------------------------
 
@@ -95,6 +114,21 @@ class UsuarioForm(FlaskForm):
         validators.DataRequired(message="Password Requerido")
     ],
     widget=PasswordInput(hide_value=False))
+    celular = StringField('Celular',[
+        validators.length(min=10,max=15,message="Recuerde que los celulares van de "),
+        validators.DataRequired(message="Celular es requerido"),
+        ]) 
+
+class PerfilForm(FlaskForm):
+    nombre = StringField('Nombre',[
+        validators.length(min=5,max=25,message="Ingrese Titulo valido"),
+        validators.DataRequired(message="Username es requerido")
+        ]) 
+    celular = StringField('Celular',[
+        validators.length(min=10,max=15,message="Recuerde que los celulares van de "),
+        validators.DataRequired(message="Celular es requerido"),
+        ]) 
+    
 
 def FileSizeLimit(max_size_in_mb):
     max_bytes = max_size_in_mb*1024*1024

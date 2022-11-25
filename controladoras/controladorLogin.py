@@ -1,27 +1,51 @@
 from app import app
 from flask import g
 from flask import session, flash,render_template,request,redirect,url_for
-from model.consultasPublicacion import get_all_publicaciones
+from model.consultasPublicacion import get_all_publicaciones, get_all_publicaciones_paginacion
 from model.forms import LoginForm, verificate_username_exist
 
-
 @app.route('/')
-def index():
+def inicio():
+    return redirect(url_for('index', numero_pagina=1))
+
+@app.route('/<int:numero_pagina>')
+def index(numero_pagina):
     title = "Home"
     banner = ""
-    publicaciones = get_all_publicaciones()
+
+    #Obtiene todas las publicaciones segun la paginación dada
+    if numero_pagina == 1:
+        publicaciones = get_all_publicaciones(0)
+    else:
+        publicaciones = get_all_publicaciones((numero_pagina*3)-3)
+
+    #Obtiene toda las publicaciones pasa saber cuanta paginación llevara el home
+    publicaciones_paginacion = get_all_publicaciones_paginacion()
+
     #Devolver al reverso las publicaciones, de esta forma la mas nueva siempre esta primero...(proximo paso ¿fechas?)
     publicaciones = publicaciones[::-1]
-   
 
+    #Para la paginacion manual...
+    paginaciones = 1
+    contador = 0
+
+   
+    for item in range(len(publicaciones_paginacion)):
+        if contador > 2:
+            paginaciones = paginaciones +  1
+            contador = 0
+        contador = contador +1 
+        
+    
     if len(publicaciones) == 0:
         error = "No existen publicaciones"
         app.logger.warn(error)
+        paginaciones = 0
         flash(error)
 
     if 'username' not in session:
         banner = "Bienvenido: te invitamos a loguearte o registrarte en nuestra app "
-    return render_template('index.html', username = g.username, title=title, banner=banner,publicaciones = publicaciones)
+    return render_template('index.html', username = g.username, title=title, banner=banner,publicaciones = publicaciones, paginaciones=paginaciones+1, len=len)
 
 # ------------------------------------------------------------------------------------------
 
@@ -40,10 +64,14 @@ def login():
         if account != None:
             session['username'] = account[1]
             session['id_usuario'] = account[0]
+            if account[6] == None:
+                session['celular'] = "No se encontro numero de celular"
+            else:
+                session['celular'] = account[6]
             if 'username' in session:
                 username = session['username']
                 flash("Bienvenido: "+username)
-            return redirect(url_for("index"))
+            return redirect(url_for("index", numero_pagina=1))
     return render_template('login.html',title=title, form=desc_form)
 
 # ------------------------------------------------------------------------------------------
@@ -55,5 +83,5 @@ def logout():
         session.pop('username')
     if 'id_usuario' in session:
         session.pop('id_usuario')     
-    return redirect(url_for("index"))
+    return redirect(url_for("index",numero_pagina=1))
 

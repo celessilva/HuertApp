@@ -14,6 +14,14 @@
         {{showError(error,"descripcion del error")}}
     {% endif %}
 
+    <nav aria-label="Page navigation example ">
+        <ul class="pagination justify-content-center pt-4 mt-4 fixed-bottom">
+          
+        {% for paginacion in range(1,paginaciones) %}
+          <li class="page-item"><a class="page-link" href="/{{paginacion}}">{{paginacion}}</a></li>
+        {% endfor %}
+        </ul>
+      </nav>
     
 
 

@@ -1,20 +1,35 @@
 <!-- Macro para mostrar los datos del usuario que creo la publicacion -->
 {% macro showUserData(user) -%}
-<p>
-  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseDatosUsuario" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Ver datos del autor
-  </a>
-</p>
-<div class="collapse" id="collapseDatosUsuario">
+
+<div>
   <div class="card card-body">
     {% if session['username'] %}
-    <p class="card-text">
+    <p class="card-text text-info">
       Email: {{user.2}}
-    </p>
+    </p>  
+
+    <p class="card-text text-info">
+      Contactar por WhatsApp!
+    </p> 
+    <img class="rounded mx-auto d-block pointer-whatsapp" src="{{ url_for('static', filename='img/flecha_derecha_abajo.svg') }}" alt="WhatsApp">
+    <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'></script>
+    <script>
+      var wa_btnSetting = {"btnColor":"#16BE45","ctaText":"Contactar con {{ session['username']}}","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"{{ session['celular']}}","welcomeMessage":"Hola me intereso tu publicación en HuertApp!","zIndex":999999,"btnColorScheme":"light"};
+      var wa_widgetSetting = {"title":"{{ session['username'] }}","subTitle":"","headerBackgroundColor":"#57e389","headerColorScheme":"dark","greetingText":"Hola me intereso tu publicación en HuerApp!","ctaText":"Contactar {{session['username'] }}","btnColor":"#1A1A1A","cornerRadius":40,"welcomeMessage":"Hello","btnColorScheme":"light","brandImage":"{{ url_for('static', filename='img/user.svg') }}","darkHeaderColorScheme":{"title":"#333333","subTitle":"#4F4F4F"}};  
+      window.onload = () => {
+        _waEmbed(wa_btnSetting, wa_widgetSetting);
+      };
+    </script>
+
+  
+  
+      
     {% else%}
     <p class="card-text">
       Para acceder al mail del creador de esta publicación necesitas loguearte, ¡gracias!
     </p>
+
+    
     {% endif %}
   </div>
 </div>
