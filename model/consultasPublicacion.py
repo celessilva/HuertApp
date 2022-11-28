@@ -31,6 +31,20 @@ def get_usuario_by_username(username:str) -> tuple:
         cur.close()
     return resultado
 
+def get_usuario_by_email(email:str) -> tuple:
+    resultado = ()
+    try:
+        cur = mysql.connection.cursor()
+        # TODO : INSEGURO? PORQUE?... 
+        cur.execute(f"SELECT * from Usuario where email = '{email}';")
+        resultado =cur.fetchall()[0]
+        #DEVUELVE UNA TUPLA
+    except IndexError:
+        app.logger.error(IndexError)
+    finally:
+        cur.close()
+    return resultado
+
 def get_publicacion_by_id(id:int) -> tuple:
     resultado = None
     try:
@@ -48,7 +62,7 @@ def get_all_publicaciones(numero_pagina)-> tuple:
     data= [] 
     cur = mysql.connection.cursor()
     try:
-        cur.execute(f"SELECT * from Publicacion LIMIT 3 OFFSET {numero_pagina};")
+        cur.execute(f"SELECT * from Publicacion ORDER BY id_publicacion DESC LIMIT 3 OFFSET {numero_pagina} ;")
         data = cur.fetchall()
     except (MySQLdb.Error, MySQLdb.Warning) as e:
         app.logger.error(e)

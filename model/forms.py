@@ -121,11 +121,11 @@ class UsuarioForm(FlaskForm):
 
 class PerfilForm(FlaskForm):
     nombre = StringField('Nombre',[
-        validators.length(min=5,max=25,message="Ingrese Titulo valido"),
+        validators.length(min=5,max=25,message="Ingrese un nombre de minimo 5 caracteres y maximo 25"),
         validators.DataRequired(message="Username es requerido")
         ]) 
     celular = StringField('Celular',[
-        validators.length(min=10,max=15,message="Recuerde que los celulares van de "),
+        validators.length(min=10,max=15,message="Recuerde que los celulares van de 10 numeros en adelante :)"),
         validators.DataRequired(message="Celular es requerido"),
         ]) 
     

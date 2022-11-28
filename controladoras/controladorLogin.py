@@ -22,9 +22,6 @@ def index(numero_pagina):
     #Obtiene toda las publicaciones pasa saber cuanta paginación llevara el home
     publicaciones_paginacion = get_all_publicaciones_paginacion()
 
-    #Devolver al reverso las publicaciones, de esta forma la mas nueva siempre esta primero...(proximo paso ¿fechas?)
-    publicaciones = publicaciones[::-1]
-
     #Para la paginacion manual...
     paginaciones = 1
     contador = 0

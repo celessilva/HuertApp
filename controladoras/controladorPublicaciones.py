@@ -73,7 +73,7 @@ def mis_publicaciones():
 @app.route('/publicacion/<int:id>/', methods=['GET'])
 def get_publicacion(id):
     publicacion = consultasPublicacion.get_publicacion_by_id(id)
-    datos_usuario = controladorUsuario.get_usuario_by_username(publicacion[7])
+    datos_usuario = consultasPublicacion.get_usuario_by_email(publicacion[8])
     if publicacion == False:
         flash("No existe la publicacion")
         return redirect(url_for("mis_publicaciones"))

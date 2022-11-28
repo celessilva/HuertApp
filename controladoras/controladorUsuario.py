@@ -30,7 +30,7 @@ def perfil():
     form = PerfilForm(request.form)
     usuario = get_usuario_by_username(session['username'])
     title= 'Editar Perfil'
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         update_usuario(form.nombre.data,form.celular.data,usuario[0])
         session['username'] = form.nombre.data
         session['celular'] = form.celular.data
