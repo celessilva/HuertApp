@@ -86,7 +86,7 @@ CREATE TABLE `Publicacion` (
   PRIMARY KEY (`id_publicacion`),
   KEY `Publicacion_FK` (`id_usuario`),
   CONSTRAINT `Publicacion_FK` FOREIGN KEY (`id_usuario`) REFERENCES `Usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,8 +103,9 @@ CREATE TABLE `Usuario` (
   `password` varchar(255) NOT NULL,
   `fecha_inscripcion` date DEFAULT NULL,
   `activo` tinyint(4) DEFAULT NULL,
+  `celular` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,4 +135,4 @@ CREATE TABLE `Usuario_has_Publicacion` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-22 13:31:31
+-- Dump completed on 2022-11-28 20:36:49
