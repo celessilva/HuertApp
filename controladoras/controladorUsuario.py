@@ -34,6 +34,7 @@ def perfil():
         update_usuario(form.nombre.data,form.celular.data,usuario[0])
         session['username'] = form.nombre.data
         session['celular'] = form.celular.data
+        return redirect(url_for('index', numero_pagina=1))
     if session['username'] and usuario:
         form.nombre.data = session['username']
         if session['celular'] == None:
